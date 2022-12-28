@@ -1,8 +1,11 @@
 #include<iostream>
 #include<fstream>
+#include<string>
 using namespace std;
-	char fname[10],lname[10];   int acc_no,acc_no1;
-	float balance,amount;  
+
+	  string s1,fname,lname;
+  char acc_no[12],acc_no1[12];
+	float balance,amount,total;  
 class account{
 
 	public:
@@ -16,110 +19,132 @@ class account{
 		void display();
 };
 void account :: new_account(){
-	cout<<"Enter first name=";   cin>>fname;
-	cout<<"Enter last name=";  cin>>lname;
+	
+
+	ofstream obj1("student.txt");
+	if(!obj1){cout<<"error"<<endl;  	}
+	else{cout<<"Enter first name=";   cin>>fname;
+	cout<<"Enter last name=";   cin>>lname;
 	cout<<"Enter account no.=";   cin>>acc_no;
-    cout<<"First name="<<fname<<endl;
+	obj1 << fname << " " << lname << endl;
+    obj1 << acc_no <<endl;
+       obj1.close();
+	 }
+	ifstream obj2("student.txt");
+	if(!obj2){	cout<<"error"<<endl;}
+	else{   obj2>>fname>>lname;
+	obj2>>acc_no[12];
+	cout<<"First name="<<fname<<endl;
 	cout<<"Last name="<<lname<<endl;
 	cout<<"Your account no.="<<acc_no<<endl;
-}
+	obj2.close();
+	}
+	}
+    
 void account::deposite(){
+	ofstream obj1("student.txt");
+	if(!obj1){cout<<"error"<<endl;  	}
+	else{
 	cout<<"Enter account no.=";   cin>>acc_no;
-	cout<<"Enter amount to deposite=";  cin>>amount;
-	balance+=amount;
-	cout<<"balance="<<balance;
+	 cout<<"Enter amount to deposite=";  cin>>amount;
+
+	obj1<<fname<<ends<<lname<<endl;
+	obj1<<acc_no<<endl;
+	obj1<<amount<<endl;
+	obj1.close();    } 
+		ifstream obj2("student.txt");
+	if(!obj2){	cout<<"error"<<endl;}
+	else{  obj2>>balance;   	balance+=(amount);
+cout<<"balance="<<balance;
 	cout<<endl<<"\t\t Amount deposited successfully \t\t"<<endl;  
-}
-void account::withdrawl(){
+	obj2.close();	}
+	}
+	void account::withdrawl(){
+		ofstream obj1("student.txt");
+			if(!obj1){cout<<"error"<<endl;  	}
+	else{
 	cout<<"Enter account no.=";   cin>>acc_no;
 	cout<<"Enter amount to withdrawl=";   cin>>amount;
 	if(amount<=balance){
+			obj1<<fname<<ends<<lname<<endl;
+	obj1<<acc_no<<endl;
     balance-=amount;
 	cout<<"left balance="<<balance<<endl;
+	obj1<<balance;
+	obj1.close();
     cout<<"\t\t Amount withdrawl successfully \t\t"<<endl;}
     else{  cout<<"Insufficient amount"<<endl;
 	}
 	}
-void account::balance_enquiry() {
+		ifstream obj2("student.txt");
+	if(!obj2){	cout<<"error"<<endl;}
+	else{ obj2>>fname>>lname; obj2>>balance;   
+
+	}  }
+	void account::balance_enquiry() {
+			ofstream obj1("student.txt");
+	if(!obj1){cout<<"error"<<endl;  	}
+	else{
 	cout<<"Enter account no.=";   cin>>acc_no;
-	cout<<endl<<"Balance left "<<balance<<endl;   
-}
-void account::delete_acc(){
-		cout<<"\n Enter account no. to be deleted=";   cin>>acc_no;
-        cout<<endl<<"\t\t Account deleted successfully \t\t"<<endl;
-}
-void account::update_acc(){
+	cout<<endl<<"Balance available= "<<balance<<endl;
+	obj1<<fname<<ends<<lname<<endl;
+	obj1<<balance;
+	obj1.close();}
+	  	ifstream obj2("student.txt");
+	if(!obj2){	cout<<"error"<<endl;}
+	else{ obj2>>fname>>lname; obj2>>balance;   
+
+	}  }
+	void account::update_acc(){
+		ofstream obj1("student.txt");
+	if(!obj1){cout<<"error"<<endl;  	}
+	else{
 	    	cout<<"Enter account no.=";   cin>>acc_no;
             cout<<"Enter name to update=";  cin>>fname>>lname;
             cout<<"Updated name="<<fname<<ends<<lname<<endl;
             cout<<"\t\tAccount updated successfully\t\t"<<endl; 
-		}
-void account::search_acc(){
-	
+            	obj1<<fname<<ends<<lname<<endl;
+	obj1<<balance;
+	obj1.close();}
+		ifstream obj2("student.txt");
+	if(!obj2){	cout<<"error"<<endl;}
+	else{ obj2>>fname>>lname; obj2>>balance;   
+	}  }
+	void account::search_acc(){
+		ofstream obj1("student.txt");
+	if(!obj1){cout<<"error"<<endl;  	}
+	else{
 	cout<<"Enter account no.=";   cin>>acc_no1;
 	if(acc_no1 == acc_no){
 	cout<<"Name="<<fname<<ends<<lname<<endl;
 	
-	cout<<"Your account no.="<<acc_no1<<endl; }
+	cout<<"Your account no.="<<acc_no1<<endl;
+		}
 	else{  cout<<"Account not found"<<endl;
-	}   } 
-
-void account::display(){
-	cout<<"Name="<<fname<<ends<<lname<<endl;
-	cout<<"Your account no.="<<acc_no<<endl;
-	cout<<"Balance"<<balance<<endl;
-}  
-int  main(){
+	} obj1<<fname<<ends<<lname<<endl;
 	
-	account a;  char ch;  int num; 
+	obj1.close();  }
+	  
+	ifstream obj2("student.txt");
+	if(!obj2){	cout<<"error"<<endl;}
+	else{ obj2>>fname>>lname; obj2>>acc_no;   
+	}   }
+	int main(){
+		account a;  
 	int key;
 	do{  
 	cout<<"\tMain menu\t";
 		cout<<"\n1.New account \n2.Deposite amount \n3.Withdrawl amount  \n4.Balance enquiry ";
-		cout<<"\n5.Search account  \n6.Update account  \n7.Delete account  ";
-		cout<<"\n 8.Exit\n";
+		cout<<"\n5.Search account  \n6.Update account    ";
+		cout<<"\n 7.Exit\n";
 		cout<<"Select your option (1-8)"<<ends;
 		cin>>key;
 	if(key==1){
-
 				 a.new_account();
-				 ofstream root;
-				 root.open("fri.doc",ios::out);
-			 root.write((char*)&a, sizeof(a)) ;
-				 if(!root){
-				 	cout<<"error"<<endl;
-				 }
-				 else{  cout<<"successfully"<<endl;
-				 root.close();  }
 			}
 		else if(key==2){
-					int acc;	cout<<"Enter account no.=";     cin>>acc;
- 				ifstream k;
-				 k.open("fri.doc");
- 				while(k.read((char*)&a,sizeof(a)))	   {
-			   if (acc==acc_no){
-			      	
-			   ofstream f("fri1.doc",ios::app);
-			  cout << "Name of account holder is: " << fname << " " <<lname << endl;
-					cout << "Current amount is: " << balance << endl;
-					cout << "Please enter new amount: "; cin >> amount;
-				balance += amount;
-					cout << "Name of account holder is: " <<fname<< " " <<lname << endl;
-					cout << "Current amount is: " <<balance << endl;
-					f.write((char*)&a, sizeof(a));
-					ifstream u("E:\\Bank Management\\Reg_users.dat");
-			   f.write((char*)&a,sizeof(a)) ;
-			   ifstream k("fri.doc");
-			   while(k.read((char*)&a,sizeof(a)))  {
-			   	if (acc!=acc_no){
-			   		f.write((char*)&a,sizeof(a));
-				   }
-			   }  f.close();	  
-			    }
-			    else{    	cout<<"Data not found\n";		}
-			}		
-				
-					}
+					a.deposite();
+			   		}
 		else if(key==3){
 		
 				a.withdrawl();
@@ -133,10 +158,7 @@ int  main(){
 		  else if(key==6){
 		       a.update_acc(); 
 		        }
-		  else if(key==7){
-		        a.delete_acc();
-		       }
-		   else if(key==8){
+		   else if(key==7){
 		    	cout<<"\n\n Thank for visiting the bank:";
 		    	exit(0);   }
 		  else{
@@ -150,4 +172,5 @@ int  main(){
 /*	a.new_account();  a.deposite();     a.withdrawl();   a.balance_enquiry();
 	    a.update_acc();   a.delete_acc(); */
 	   return 0;
-}
+
+	}
